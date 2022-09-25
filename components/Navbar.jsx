@@ -37,7 +37,7 @@ const Navbar = () => {
           <button className="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white"></button>
         </div>
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-          <div className="text-m  lg:flex-grow font-bold text-white">
+          <div className="text-m  lg:flex-grow font-bold text-white cursor-pointer">
             {categories.map((categories) => (
               <Link
                 href={`/category/${categories.node.slug}`}
