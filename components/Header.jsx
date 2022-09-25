@@ -43,7 +43,7 @@ const Header = () => {
         </div>
       </div>
       {/* hide navbar on mobile */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block cursor-pointer">
         <Navbar categories={categories} />
       </div>
     </>
