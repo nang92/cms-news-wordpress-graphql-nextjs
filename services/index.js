@@ -213,3 +213,21 @@ export const getComments = async (slug) => {
   const result = await request(graphqlAPI, query, { slug });
   return result.comments.edges;
 };
+
+// get tags from wpgraphql for post page
+export const getTags = async (slug) => {
+  const query = gql`
+    query GetTags {
+      tags {
+        edges {
+          node {
+            slug
+            name
+          }
+        }
+      }
+    }
+  `;
+  const result = await request(graphqlAPI, query, { slug });
+  return result.tags.edges;
+};

@@ -4,43 +4,29 @@ const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 const graphcmsToken = process.env.GRAPHCMS_TOKEN;
 
 export default async function comments(req, res) {
-  console.log(graphcmsToken);
-
   const graphQLClient = new GraphQLClient(graphqlAPI, {
     headers: {
       authorization: `Bearer ${graphcmsToken}`,
     },
   });
-
-  const query = gql`
-    mutation CreateComment(
-      $name: String!
-      $email: String!
-      $comment: String!
-      $slug: String!
-            
-    ) 
-    createComment(
-      input: {content: "comment", author: "name", authorEmail: "email", clientMutationId: "slug"}
-    ) {
-      comment {
-        content(format: RENDERED)
-        author {
-          node {
-            email
-            name
-            id
-          }
+  // mutation CREATE_COMMENT with wpgraphql
+  const mutation = gql`
+    mutation CREATE_COMMENT($input: CreateCommentInput!) {
+      createComment(input: $input) {
+        comment {
+          id
         }
       }
-      success
     }
   `;
-  try {
-    const result = await graphQLClient.request(query, req.body);
-    return res.status(200).send(result);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
-  }
+  const variables = {
+    input: {
+      clientMutationId: "uniqueId",
+      commentOn: req.body.postId,
+
+      content: req.body.content,
+    },
+  };
+  const data = await graphQLClient.request(mutation, variables);
+  res.status(200).json(data);
 }

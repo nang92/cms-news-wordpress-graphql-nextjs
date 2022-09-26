@@ -24,60 +24,36 @@ const CommentsForm = ({ slug }) => {
     setFormData(initalFormData);
   }, []);
 
-  const onInputChange = (e) => {
-    const { target } = e;
-    if (target.type === "checkbox") {
-      setFormData((prevState) => ({
-        ...prevState,
-        [target.name]: target.checked,
-      }));
-    } else {
-      setFormData((prevState) => ({
-        ...prevState,
-        [target.name]: target.value,
-      }));
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handlePostSubmission = () => {
-    setError(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const { name, email, comment, storeData } = formData;
-    if (!name || !email || !comment) {
-      setError(true);
-      return;
-    }
-    const commentObj = {
-      name,
-      email,
-      comment,
-      slug,
-    };
-
     if (storeData) {
-      window.localStorage.setItem("name", name);
-      window.localStorage.setItem("email", email);
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
     } else {
-      window.localStorage.removeItem("name");
-      window.localStorage.removeItem("email");
+      localStorage.removeItem("name");
+      localStorage.removeItem("email");
     }
-
-    submitComment(commentObj).then((res) => {
-      if (res.createComment) {
-        if (!storeData) {
-          formData.name = "";
-          formData.email = "";
-        }
-        formData.comment = "";
-        setFormData((prevState) => ({
-          ...prevState,
-          ...formData,
-        }));
-        setShowSuccessMessage(true);
-        setTimeout(() => {
-          setShowSuccessMessage(false);
-        }, 3000);
-      }
-    });
+    const data = await submitComment(slug, name, email, comment);
+    if (data) {
+      setShowSuccessMessage(true);
+      setFormData({
+        name: "",
+        email: "",
+        comment: "",
+        storeData: false,
+      });
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -88,7 +64,7 @@ const CommentsForm = ({ slug }) => {
       <div className="grid grid-cols-1 gap-4 mb-4">
         <textarea
           value={formData.comment}
-          onChange={onInputChange}
+          onChange={handleChange}
           className="p-4 outline-none w-full rounded-lg h-40 focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           name="comment"
           placeholder="Comment"
@@ -98,7 +74,7 @@ const CommentsForm = ({ slug }) => {
         <input
           type="text"
           value={formData.name}
-          onChange={onInputChange}
+          onChange={handleChange}
           className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Name"
           name="name"
@@ -106,7 +82,7 @@ const CommentsForm = ({ slug }) => {
         <input
           type="email"
           value={formData.email}
-          onChange={onInputChange}
+          onChange={handleChange}
           className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Email"
           name="email"
@@ -116,7 +92,7 @@ const CommentsForm = ({ slug }) => {
         <div>
           <input
             checked={formData.storeData}
-            onChange={onInputChange}
+            onChange={handleChange}
             type="checkbox"
             id="storeData"
             name="storeData"
@@ -133,7 +109,7 @@ const CommentsForm = ({ slug }) => {
       <div className="mt-8">
         <button
           type="button"
-          onClick={handlePostSubmission}
+          onClick={handleSubmit}
           className="transition duration-500 ease hover:bg-indigo-900 inline-block bg-green-900 text-lg font-medium rounded-full text-white px-8 py-3 cursor-pointer"
         >
           Post Comment

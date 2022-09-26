@@ -10,6 +10,7 @@ import {
   Loader,
   PostDetail,
   PostWidget,
+  Tags,
 } from "../../components";
 import { getPostDetails, getPosts } from "../../services";
 
@@ -33,8 +34,7 @@ const PostDetails = ({ post }) => {
             <PostDetail post={post} />
 
             <Author author={post.author} />
-            <CommentsForm />
-            <Comments />
+
             <PostWidget />
           </div>
           <div className="col-span-1 lg:col-span-4">

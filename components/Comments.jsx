@@ -22,12 +22,12 @@ const Comments = ({ slug }) => {
           </h3>
           {comments.map((comment, index) => (
             <div key={index} className="border-b border-gray-100 mb-4 pb-4">
-              <p className="mb-4">
+              <div className="mb-4">
                 <span className="font-semibold">
                   {comment.node.author.node.name}
                 </span>{" "}
                 on {moment(comment.node.date).format("MMM DD, YYYY")}
-              </p>
+              </div>
               <p className="whitespace-pre-line text-gray-600 w-full">
                 {parse(comment.node.content)}
               </p>

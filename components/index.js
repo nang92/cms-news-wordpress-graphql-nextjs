@@ -11,3 +11,4 @@ export { default as Comments } from "./Comments";
 export { default as CommentsForm } from "./CommentsForm";
 export { default as FeaturedPostCard } from "./FeaturedPostCard";
 export { default as Navbar } from "./Navbar";
+export { default as Tags } from "./Tags";
