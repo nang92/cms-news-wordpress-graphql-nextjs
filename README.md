@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+- Using WordPress and WPGraphQL as Backend, NextJS and Tailwind as FrontEnd
+
+## - [DEMO](https://beta.taichinhantoan.com/)
+
 ### Requirements
 
 - [WordPress](https://wordpress.org/)
