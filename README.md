@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 - Using WordPress and WPGraphQL as Backend, NextJS and Tailwind as FrontEnd
 
-## - [DEMO](https://beta.taichinhantoan.com/)
+## - [DEMO](https://taichinhantoan.vercel.app/)
 
 ### Requirements
 
